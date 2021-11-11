@@ -107,24 +107,15 @@ public class PDFCreator {
 
     private void addValueToPDF(PdfContentByte pdfContentByte, String text, Coordinate coordinate) throws IOException, DocumentException {
         pdfContentByte.beginText();
-        pdfContentByte.setFontAndSize(BaseFont.createFont(), 16);
-        BaseFont.createFont().setKerning(0, 4, 200);
-        boolean bf = BaseFont.createFont().setKerning(1, 1, 1);
-
-
-        pdfContentByte.setFontAndSize(BaseFont.createFont
-                        (
-                                BaseFont.TIMES_BOLD, //Font name
-                                BaseFont.CP1257, //Font encoding
-                                BaseFont.EMBEDDED,
-                                bf
-                        ),
-                16); // set font and size
-
+        BaseFont bf = BaseFont.createFont
+                (
+                        BaseFont.TIMES_BOLD, //Font name
+                        BaseFont.CP1250,  //Font encoding
+                        BaseFont.EMBEDDED
+                );
+        pdfContentByte.setFontAndSize(bf,16); // set font and size
         pdfContentByte.setTextMatrix(coordinate.getX(), coordinate.getY());
-        //pdfContentByte.showText(text); // add the text
-        pdfContentByte.showTextKerned(text); // add the text
-
+        pdfContentByte.showText(text); // add the text
         pdfContentByte.endText();
     }
 
