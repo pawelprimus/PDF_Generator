@@ -27,12 +27,7 @@ public class Main {
         ExcelToObject excelToObject = new ExcelToObject();
         PDFCreator pdfCreator = new PDFCreator();
 
-        //Locale.getDefault();
-        //BasicConfigurator.configure();
-
         String excelDataName = "test" + XLSX_EXTENSION;
-
-
         Path dataFolder = Paths.get(WORKING_DIRECTORY + "\\data\\");
 
         //uncomment for use test data
@@ -40,27 +35,14 @@ public class Main {
 
         File ordersExportFile = new File(dataFolder + "\\" + excelDataName);
 
-
         Set<Integer> indexesHashSet = excelExtractor.getDateIndexes(ordersExportFile);
         PoijiNumberFormat numberFormat = excelExtractor.getPoijiNumberFormatWithDates(indexesHashSet);
         List<ExcelPerson> excelPersonList = excelExtractor.generateExcelPersonList(ordersExportFile, numberFormat);
 
-        for (ExcelPerson excelPerson : excelPersonList) {
-            System.out.println(excelPerson.toString());
-        }
-
         List<Person> people = excelToObject.excelObjectToPerson(excelPersonList);
 
-        for (Person person : people) {
-            System.out.println(person.toString());
-        }
-
-        for (Person person : people) {
-            if (person.isEndOfContract()) {
-                System.out.println("GENERATE END CONTRACT FOR: " + person.getSurname() + " " + person.getName() + " WITH DATE: " + person.getEndOfContractDate());
-                pdfCreator.generateTerminationOfEmploymentContracy(dataFolder, person);
-            }
-        }
-
+        pdfCreator.generateTerminationOfEmploymentContracts(people, dataFolder);
     }
+
 }
+
