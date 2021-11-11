@@ -40,9 +40,9 @@ public class Main {
         List<ExcelPerson> excelPersonList = excelExtractor.generateExcelPersonList(ordersExportFile, numberFormat);
         List<Person> people = excelToObject.excelObjectToPerson(excelPersonList);
 
-        //pdfCreator.generateTerminationOfEmploymentContracts(dataFolder, people);
+        pdfCreator.generateTerminationOfEmploymentContracts(people, dataFolder);
+        pdfCreator.generateSokaBauContracts(people, dataFolder);
 
-        pdfCreator.generateSokaBauContract(people.get(5), dataFolder);
     }
 
 }

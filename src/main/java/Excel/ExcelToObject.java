@@ -70,6 +70,13 @@ public class ExcelToObject {
                 person.setEndOfContractDate(localDate);
             }
 
+            String sokaBauContract = excelPerson.getSokaBauContract();
+            if (isStringNotEmpty(sokaBauContract)) {
+                if (sokaBauContract.equals("x")) {
+                    person.setSokaBauContract(true);
+                }
+            }
+
             people.add(person);
         }
 

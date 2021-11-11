@@ -42,13 +42,13 @@ public class PDFCreator {
     private static final String PDF_DATE_FORMAT = "dd MM yyyy";
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DD_MM_YYYY);
     private static final DateTimeFormatter PDF_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(PDF_DATE_FORMAT);
-    private static final String GENERATE_INFO = "GENERATE END CONTRACT FOR: %s %s WITH DATE: %s";
+    private static final String EC_GENERATE_INFO = "GENERATE END CONTRACT FOR: %s %s WITH DATE: %s";
+    private static final String SOKA_GENERATE_INFO = "GENERATE SOKA BAU CONTRACT FOR: %s %s ";
 
     public void generateTerminationOfEmploymentContracts(List<Person> people, Path dataFolder) throws IOException, DocumentException {
-
         for (Person person : people) {
             if (person.isEndOfContract()) {
-                System.out.println(String.format(GENERATE_INFO, person.getSurname(), person.getName(), person.getEndOfContractDate()));
+                System.out.println(String.format(EC_GENERATE_INFO, person.getSurname(), person.getName(), person.getEndOfContractDate()));
                 generateTerminationOfEmploymentContract(person, dataFolder);
             }
         }
@@ -79,11 +79,21 @@ public class PDFCreator {
         pdfStamper.close(); //close pdfStamper
     }
 
-    public void generateSokaBauContract(Person person, Path contractPath) throws IOException, DocumentException {
+    public void generateSokaBauContracts(List<Person> people, Path dataFolder) throws IOException, DocumentException {
 
-        String inputFilePath = contractPath + "\\" + SOKA_BAU_FILE_NAME;
+        for (Person person : people) {
+            if (person.isSokaBauContract()) {
+                System.out.println(String.format(SOKA_GENERATE_INFO, person.getSurname(), person.getName()));
+                generateSokaBauContract(person, dataFolder);
+            }
+        }
+    }
 
-        File outputDirectory = new File(contractPath + "\\" + SOKA_BAU);
+    private void generateSokaBauContract(Person person, Path documentPath) throws IOException, DocumentException {
+
+        String inputFilePath = documentPath + "\\" + SOKA_BAU_FILE_NAME;
+
+        File outputDirectory = new File(documentPath + "\\" + SOKA_BAU);
         if (!outputDirectory.exists()) {
             outputDirectory.mkdir();
         }

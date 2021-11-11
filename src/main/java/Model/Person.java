@@ -10,6 +10,7 @@ public class Person {
     private String phoneNumber;
     private boolean endOfContract;
     private LocalDate endOfContractDate;
+    private boolean sokaBauContract;
 
     public Person() {
         this.endOfContract = false;
@@ -72,6 +73,13 @@ public class Person {
         return endOfContract;
     }
 
+    public boolean isSokaBauContract() {
+        return sokaBauContract;
+    }
+
+    public void setSokaBauContract(boolean sokaBauContract) {
+        this.sokaBauContract = sokaBauContract;
+    }
 
     @Override
     public String toString() {
@@ -79,10 +87,11 @@ public class Person {
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", birthday=" + birthday +
-                ", address=" + address.toString() +
+                ", address=" + address +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", endOfContract=" + endOfContract +
                 ", endOfContractDate=" + endOfContractDate +
+                ", sokaBauContract=" + sokaBauContract +
                 '}';
     }
 }

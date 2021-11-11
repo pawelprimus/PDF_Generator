@@ -42,6 +42,11 @@ public class ExcelPerson {
    @ExcelCellName("Data rozwiązania")
     private String dateOfEndOfContracy;
 
+    @ExcelCellName("SOKA BAU?")
+    private String sokaBauContract;
+
+
+
     public int getRowIndex() {
         return rowIndex;
     }
@@ -68,6 +73,10 @@ public class ExcelPerson {
 
     public String getDateOfEndOfContract() {
         return dateOfEndOfContracy;
+    }
+
+    public String getSokaBauContract() {
+        return sokaBauContract;
     }
 
     @Override
