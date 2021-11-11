@@ -24,10 +24,12 @@ public class PDFCreator {
 
     private static final String PDF_EXTENSION = ".pdf";
     private static final String CONTRACT_END = "Rozwiązanie umowy o pracę";
+    private static final String CONTRACT_END_FILE_NAME = CONTRACT_END + PDF_EXTENSION;
 
     private static final String DD_MM_YYYY = "dd.MM.yyyy";
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DD_MM_YYYY);
     private static final String GENERATE_INFO = "GENERATE END CONTRACT FOR: %s %s WITH DATE: %s";
+    private static final String NEW_CONTRACT_END_NAME = "%s %s " + CONTRACT_END_FILE_NAME;
 
     public void generateTerminationOfEmploymentContracts(List<Person> people, Path dataFolder) throws IOException, DocumentException {
 
@@ -42,8 +44,13 @@ public class PDFCreator {
 
     private void generateTerminationOfEmploymentContract(Path contractPath, Person person) throws IOException, DocumentException {
 
-        String inputFilePath = contractPath + "\\" + CONTRACT_END + PDF_EXTENSION;
-        String outputFilePath = contractPath + "\\" + person.getSurname() + " " + person.getName() + " " + CONTRACT_END + PDF_EXTENSION;
+        String inputFilePath = contractPath + "\\" + CONTRACT_END_FILE_NAME;
+
+        File outputDirectory = new File(contractPath + "\\" + CONTRACT_END);
+        if (! outputDirectory.exists()){
+            outputDirectory.mkdir();
+        }
+        String outputFilePath = outputDirectory + "\\" + String.format(NEW_CONTRACT_END_NAME, person.getSurname(), person.getName());
 
         OutputStream fos = new FileOutputStream(new File(outputFilePath));
 
