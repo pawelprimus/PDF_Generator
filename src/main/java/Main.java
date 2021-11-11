@@ -38,10 +38,11 @@ public class Main {
         Set<Integer> indexesHashSet = excelExtractor.getDateIndexes(ordersExportFile);
         PoijiNumberFormat numberFormat = excelExtractor.getPoijiNumberFormatWithDates(indexesHashSet);
         List<ExcelPerson> excelPersonList = excelExtractor.generateExcelPersonList(ordersExportFile, numberFormat);
-
         List<Person> people = excelToObject.excelObjectToPerson(excelPersonList);
 
-        pdfCreator.generateTerminationOfEmploymentContracts(people, dataFolder);
+        //pdfCreator.generateTerminationOfEmploymentContracts(dataFolder, people);
+
+        pdfCreator.generateSokaBauContract(people.get(5), dataFolder);
     }
 
 }
