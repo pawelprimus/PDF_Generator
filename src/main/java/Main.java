@@ -42,7 +42,6 @@ public class Main {
 
         pdfCreator.generateTerminationOfEmploymentContracts(people, dataFolder);
         pdfCreator.generateSokaBauContracts(people, dataFolder);
-
     }
 
 }
