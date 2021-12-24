@@ -75,3 +75,9 @@ fabric.properties
 
 # Folder with private data
 data
+
+#target
+.classpath
+.project
+.settings/
+target/

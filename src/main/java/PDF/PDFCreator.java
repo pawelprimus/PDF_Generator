@@ -22,14 +22,17 @@ public class PDFCreator {
     private static final Coordinate EC_EMPL_STREET = new Coordinate(70, 715);
     private static final Coordinate EC_EMPL_CITY = new Coordinate(70, 678);
     private static final Coordinate EC_EMPL_DATE_OF_END = new Coordinate(115, 440);
+    private static final Coordinate EC_EMPL_DATE_OF_END_2 = new Coordinate(220, 180);
     //SOKA BAU
     private static final Coordinate SOKA_EMPL_NAME = new Coordinate(75, 730);
     private static final Coordinate SOKA_EMPL_SURNAME = new Coordinate(75, 703);
-    private static final Coordinate SOKA_EMPL_BIRTHDAY = new Coordinate(410, 705);
+    private static final Coordinate SOKA_EMPL_BIRTHDAY = new Coordinate(393, 705);
     private static final Coordinate SOKA_EMPL_STREET = new Coordinate(65, 628);
     private static final Coordinate SOKA_EMPL_CITY = new Coordinate(270, 600);
     private static final Coordinate SOKA_EMPL_CITY_CODE = new Coordinate(150, 599);
+    private static final Coordinate STAMP = new Coordinate(40, 598);
 
+    private static final String STAMP_TEXT = "PL";
     private static final String PDF_EXTENSION = ".pdf";
     private static final String CONTRACT_END = "Rozwiązanie umowy o pracę";
     private static final String CONTRACT_END_FILE_NAME = CONTRACT_END + PDF_EXTENSION;
@@ -71,10 +74,11 @@ public class PDFCreator {
         PdfStamper pdfStamper = new PdfStamper(pdfReader, fos);
 
         PdfContentByte pdfContentByte = pdfStamper.getOverContent(1);
-        addValueToPDF(pdfContentByte, person.getSurname() + " " + person.getName(), EC_EMPL_NAME_SURNAME);
-        addValueToPDF(pdfContentByte, person.getAddress().getStreet(), EC_EMPL_STREET);
-        addValueToPDF(pdfContentByte, person.getAddress().getCityCode() + " " + person.getAddress().getCity(), EC_EMPL_CITY);
-        addValueToPDF(pdfContentByte, person.getEndOfContractDate().format(DATE_TIME_FORMATTER), EC_EMPL_DATE_OF_END);
+        addValueToPDF(pdfContentByte, person.getSurname() + " " + person.getName(), EC_EMPL_NAME_SURNAME, 16);
+        addValueToPDF(pdfContentByte, person.getAddress().getStreet(), EC_EMPL_STREET, 16);
+        addValueToPDF(pdfContentByte, person.getAddress().getCityCode() + " " + person.getAddress().getCity(), EC_EMPL_CITY, 16);
+        addValueToPDF(pdfContentByte, person.getEndOfContractDate().format(DATE_TIME_FORMATTER), EC_EMPL_DATE_OF_END, 16);
+        addValueToPDF(pdfContentByte, person.getEndOfContractDate().format(DATE_TIME_FORMATTER), EC_EMPL_DATE_OF_END_2, 16);
 
         pdfStamper.close(); //close pdfStamper
     }
@@ -105,17 +109,18 @@ public class PDFCreator {
         PdfStamper pdfStamper = new PdfStamper(pdfReader, fos);
 
         PdfContentByte pdfContentByte = pdfStamper.getOverContent(1);
-        addValueToPDF(pdfContentByte, person.getName(), SOKA_EMPL_NAME);
-        addValueToPDF(pdfContentByte, person.getSurname(), SOKA_EMPL_SURNAME);
-        addValueToPDF(pdfContentByte, person.getBirthday().format(PDF_DATE_TIME_FORMATTER), SOKA_EMPL_BIRTHDAY);
-        addValueToPDF(pdfContentByte, person.getAddress().getStreet(), SOKA_EMPL_STREET);
-        addValueToPDF(pdfContentByte, person.getAddress().getCity(), SOKA_EMPL_CITY);
-        addValueToPDF(pdfContentByte, person.getAddress().getCityCode(), SOKA_EMPL_CITY_CODE);
+        addValueToPDF(pdfContentByte, person.getName(), SOKA_EMPL_NAME,16);
+        addValueToPDF(pdfContentByte, person.getSurname(), SOKA_EMPL_SURNAME,16);
+        addValueToPDF(pdfContentByte, person.getBirthday().format(PDF_DATE_TIME_FORMATTER).toString().replace(" ", ""), SOKA_EMPL_BIRTHDAY,14, 18);
+        addValueToPDF(pdfContentByte, person.getAddress().getStreet(), SOKA_EMPL_STREET,16);
+        addValueToPDF(pdfContentByte, person.getAddress().getCity(), SOKA_EMPL_CITY,16);
+        addValueToPDF(pdfContentByte, person.getAddress().getCityCode(), SOKA_EMPL_CITY_CODE,16);
+        addValueToPDF(pdfContentByte, STAMP_TEXT, STAMP,15, 18);
 
         pdfStamper.close(); //close pdfStamper
     }
 
-    private void addValueToPDF(PdfContentByte pdfContentByte, String text, Coordinate coordinate) throws IOException, DocumentException {
+    private void addValueToPDF(PdfContentByte pdfContentByte, String text, Coordinate coordinate, int FontSize) throws IOException, DocumentException {
         pdfContentByte.beginText();
         BaseFont bf = BaseFont.createFont
                 (
@@ -123,10 +128,30 @@ public class PDFCreator {
                         BaseFont.CP1250,  //Font encoding
                         BaseFont.EMBEDDED
                 );
-        pdfContentByte.setFontAndSize(bf,16); // set font and size
+        pdfContentByte.setFontAndSize(bf, FontSize); // set font and size
         pdfContentByte.setTextMatrix(coordinate.getX(), coordinate.getY());
         pdfContentByte.showText(text); // add the text
         pdfContentByte.endText();
+    }
+
+    private void addValueToPDF(PdfContentByte pdfContentByte, String text, Coordinate coordinate,int FontSize, int karning) throws IOException, DocumentException {
+        pdfContentByte.beginText();
+        char[] textCharsArray = text.toCharArray();
+
+        BaseFont bf = BaseFont.createFont
+                (
+                        BaseFont.TIMES_BOLD, //Font name
+                        BaseFont.CP1250,  //Font encoding
+                        BaseFont.EMBEDDED
+                );
+        pdfContentByte.setFontAndSize(bf, FontSize); // set font and size
+
+        for (int i = 1; i <= textCharsArray.length; i++) {
+            pdfContentByte.setTextMatrix(coordinate.getX() + i * karning, coordinate.getY());
+            pdfContentByte.showText(String.valueOf(textCharsArray[i - 1])); // add the text
+            pdfContentByte.endText();
+        }
+
     }
 
 

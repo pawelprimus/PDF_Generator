@@ -26,12 +26,14 @@ public class Main {
         ExcelExtractor excelExtractor = new ExcelExtractor();
         ExcelToObject excelToObject = new ExcelToObject();
         PDFCreator pdfCreator = new PDFCreator();
-
+        WorkingType workingType = WorkingType.PROD;
         String excelDataName = "test" + XLSX_EXTENSION;
-        Path dataFolder = Paths.get(WORKING_DIRECTORY + "\\data\\");
-
-        //uncomment for use test data
-        //dataFolder = Paths.get(String.valueOf(WORKING_DIRECTORY) + "\\data_test\\");
+        Path dataFolder;
+        if (workingType.equals(WorkingType.TEST)) {
+            dataFolder = Paths.get((WORKING_DIRECTORY) + "\\data_test\\");
+        } else {
+            dataFolder = Paths.get(WORKING_DIRECTORY + "\\data\\");
+        }
 
         File ordersExportFile = new File(dataFolder + "\\" + excelDataName);
 
@@ -42,6 +44,11 @@ public class Main {
 
         pdfCreator.generateTerminationOfEmploymentContracts(people, dataFolder);
         pdfCreator.generateSokaBauContracts(people, dataFolder);
+    }
+
+    public enum WorkingType {
+        PROD,
+        TEST
     }
 
 }
