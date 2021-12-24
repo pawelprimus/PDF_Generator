@@ -27,7 +27,7 @@ public class PDFCreator {
     private static final Coordinate SOKA_EMPL_NAME = new Coordinate(75, 730);
     private static final Coordinate SOKA_EMPL_SURNAME = new Coordinate(75, 703);
     private static final Coordinate SOKA_EMPL_BIRTHDAY = new Coordinate(393, 705);
-    private static final Coordinate SOKA_EMPL_STREET = new Coordinate(65, 628);
+    private static final Coordinate SOKA_EMPL_STREET = new Coordinate(65, 626);
     private static final Coordinate SOKA_EMPL_CITY = new Coordinate(270, 600);
     private static final Coordinate SOKA_EMPL_CITY_CODE = new Coordinate(150, 599);
     private static final Coordinate STAMP = new Coordinate(40, 598);
