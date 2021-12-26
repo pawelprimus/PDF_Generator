@@ -60,7 +60,7 @@ public class PDFCreator {
 
     private void generateTerminationOfEmploymentContract(Person person, Path contractPath) throws IOException, DocumentException {
 
-        String inputFilePath = contractPath + "\\" + CONTRACT_END_FILE_NAME;
+        String inputFilePath = contractPath + "\\Templates\\" + CONTRACT_END_FILE_NAME;
 
         File outputDirectory = new File(contractPath + "\\" + CONTRACT_END);
         if (!outputDirectory.exists()) {
@@ -95,7 +95,7 @@ public class PDFCreator {
 
     private void generateSokaBauContract(Person person, Path documentPath) throws IOException, DocumentException {
 
-        String inputFilePath = documentPath + "\\" + SOKA_BAU_FILE_NAME;
+        String inputFilePath = documentPath + "\\Templates\\" + SOKA_BAU_FILE_NAME;
 
         File outputDirectory = new File(documentPath + "\\" + SOKA_BAU);
         if (!outputDirectory.exists()) {
