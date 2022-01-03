@@ -8,12 +8,17 @@ public class Person {
     private LocalDate birthday;
     private Address address;
     private String phoneNumber;
-    private boolean endOfContract;
+    private boolean endOfContractTunnel;
+    private boolean endOfContractPbkr;
+    private boolean endOfContractBis;
     private LocalDate endOfContractDate;
-    private boolean sokaBauContract;
+    private boolean pbkrContract;
+    private boolean bisContract;
+    private boolean tunnelContract;
+    private boolean isDataValid = true;
 
     public Person() {
-        this.endOfContract = false;
+        this.endOfContractTunnel = false;
     }
 
     public String getName() {
@@ -42,7 +47,7 @@ public class Person {
 
 
     public void setEndOfContract(boolean endOfContract) {
-        this.endOfContract = endOfContract;
+        this.endOfContractTunnel = endOfContract;
     }
 
     public LocalDate getBirthday() {
@@ -70,15 +75,63 @@ public class Person {
     }
 
     public boolean isEndOfContract() {
-        return endOfContract;
+        return endOfContractTunnel;
     }
 
-    public boolean isSokaBauContract() {
-        return sokaBauContract;
+    public boolean isPbkrContract() {
+        return pbkrContract;
     }
 
-    public void setSokaBauContract(boolean sokaBauContract) {
-        this.sokaBauContract = sokaBauContract;
+    public void setPbkrContract(boolean pbkrContract) {
+        this.pbkrContract = pbkrContract;
+    }
+
+    public boolean isBisContract() {
+        return bisContract;
+    }
+
+    public void setBisContract(final boolean bisContract) {
+        this.bisContract = bisContract;
+    }
+
+    public boolean isTunnelContract() {
+        return tunnelContract;
+    }
+
+    public void setTunnelContract(final boolean tunnelContract) {
+        this.tunnelContract = tunnelContract;
+    }
+
+    public boolean isDataValid() {
+        return isDataValid;
+    }
+
+    public void setDataValid(final boolean dataValid) {
+        isDataValid = dataValid;
+    }
+
+    public boolean isEndOfContractTunnel() {
+        return endOfContractTunnel;
+    }
+
+    public void setEndOfContractTunnel(final boolean endOfContractTunnel) {
+        this.endOfContractTunnel = endOfContractTunnel;
+    }
+
+    public boolean isEndOfContractPbkr() {
+        return endOfContractPbkr;
+    }
+
+    public void setEndOfContractPbkr(final boolean endOfContractPbkr) {
+        this.endOfContractPbkr = endOfContractPbkr;
+    }
+
+    public boolean isEndOfContractBis() {
+        return endOfContractBis;
+    }
+
+    public void setEndOfContractBis(final boolean endOfContractBis) {
+        this.endOfContractBis = endOfContractBis;
     }
 
     @Override
@@ -89,9 +142,9 @@ public class Person {
                 ", birthday=" + birthday +
                 ", address=" + address +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", endOfContract=" + endOfContract +
+                ", endOfContract=" + endOfContractTunnel +
                 ", endOfContractDate=" + endOfContractDate +
-                ", sokaBauContract=" + sokaBauContract +
+                ", sokaBauContract=" + pbkrContract +
                 '}';
     }
 }

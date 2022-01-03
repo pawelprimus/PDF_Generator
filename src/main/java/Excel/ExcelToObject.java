@@ -3,11 +3,7 @@ package Excel;
 import Model.Address;
 import Model.ExcelPerson;
 import Model.Person;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -40,17 +36,23 @@ public class ExcelToObject {
                 if (isInBounds(nameAndSurname, 1)) {
                     person.setName(nameAndSurname[1]);
                 }
+            } else {
+                person.setDataValid(false);
             }
 
             String birthday = excelPerson.getBirthDate();
             if (isStringNotEmpty(birthday)) {
                 LocalDate localDate = LocalDate.parse(birthday, dateTimeFormatter);
                 person.setBirthday(localDate);
+            } else {
+                person.setDataValid(false);
             }
 
             String adress = excelPerson.getAddress();
             if (isStringNotEmpty(adress)) {
                 person.setAddress(getAddress(adress));
+            } else {
+                person.setDataValid(false);
             }
 
             String phoneNumber = excelPerson.getPhoneNumber();
@@ -58,23 +60,53 @@ public class ExcelToObject {
                 person.setPhoneNumber(phoneNumber);
             }
 
-            String endOfContract = excelPerson.getEndOfContract();
-            if (isStringNotEmpty(endOfContract)) {
-                if (endOfContract.equals("x")) {
-                    person.setEndOfContract(true);
+            String endOfContractTunnel = excelPerson.getEndOfContract();
+            if (isStringNotEmpty(endOfContractTunnel)) {
+                if (endOfContractTunnel.equals("x")) {
+                    person.setEndOfContractTunnel(true);
                 }
             }
 
-            String dateEndOfContract = excelPerson.getDateOfEndOfContract();
+            String endOfContractPbkr = excelPerson.getEndOfContract();
+            if (isStringNotEmpty(endOfContractPbkr)) {
+                if (endOfContractPbkr.equals("x")) {
+                    person.setEndOfContractPbkr(true);
+                }
+            }
+
+            String endOfContractBis = excelPerson.getEndOfContract();
+            if (isStringNotEmpty(endOfContractBis)) {
+                if (endOfContractBis.equals("x")) {
+                    person.setEndOfContractBis(true);
+                }
+            }
+
+            String dateEndOfContract = excelPerson.getDateOfEndContractTunnel();
             if (isStringNotEmpty(dateEndOfContract)) {
                 LocalDate localDate = LocalDate.parse(dateEndOfContract, dateTimeFormatter);
                 person.setEndOfContractDate(localDate);
+            } else {
+                person.setDataValid(false);
             }
 
             String sokaBauContract = excelPerson.getSokaBauContract();
             if (isStringNotEmpty(sokaBauContract)) {
                 if (sokaBauContract.equals("x")) {
-                    person.setSokaBauContract(true);
+                    person.setPbkrContract(true);
+                }
+            }
+
+            String bisContract = excelPerson.getBisContract();
+            if (isStringNotEmpty(bisContract)) {
+                if (bisContract.equals("x")) {
+                    person.setBisContract(true);
+                }
+            }
+
+            String tunnelContract = excelPerson.getTunnelContract();
+            if (isStringNotEmpty(tunnelContract)) {
+                if (tunnelContract.equals("x")) {
+                    person.setTunnelContract(true);
                 }
             }
 

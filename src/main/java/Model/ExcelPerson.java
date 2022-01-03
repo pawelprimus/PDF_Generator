@@ -1,19 +1,9 @@
 package Model;
 
-import com.poiji.annotation.ExcelCell;
 import com.poiji.annotation.ExcelCellName;
 import com.poiji.annotation.ExcelRow;
-import javafx.scene.control.DateCell;
-import javafx.util.converter.LocalDateTimeStringConverter;
-import sun.util.calendar.BaseCalendar;
 
-import java.security.Timestamp;
-import java.sql.Date;
-import java.sql.Time;
-import java.time.*;
 import java.time.format.DateTimeFormatter;
-
-
 
 
 public class ExcelPerson {
@@ -36,15 +26,26 @@ public class ExcelPerson {
     @ExcelCellName("Nr. Telefonu")
     private String phoneNumber;
 
-    @ExcelCellName("Rozwiązanie umowy?")
+    @ExcelCellName("Rozwiązanie WPBK-TUNNELLING?")
     private String endOfContract;
 
-   @ExcelCellName("Data rozwiązania")
-    private String dateOfEndOfContracy;
+    @ExcelCellName("Data rozwiązania")
+    private String dateOfEndContractTunnel;
+
+    @ExcelCellName("Rozwiązanie PBKR-EXPORT?")
+    private String dateOfEndContractPbkr;
+
+    @ExcelCellName("Rozwiązanie BIS-EXPORT")
+    private String dateOfEndContractBis;
 
     @ExcelCellName("SOKA BAU?")
     private String sokaBauContract;
 
+    @ExcelCellName("BIS?")
+    private String bisContract;
+
+    @ExcelCellName("TUNNEL?")
+    private String tunnelContract;
 
 
     public int getRowIndex() {
@@ -71,12 +72,28 @@ public class ExcelPerson {
         return endOfContract;
     }
 
-    public String getDateOfEndOfContract() {
-        return dateOfEndOfContracy;
+    public String getDateOfEndContractTunnel() {
+        return dateOfEndContractTunnel;
+    }
+
+    public String getDateOfEndContractPbkr() {
+        return dateOfEndContractPbkr;
+    }
+
+    public String getDateOfEndContractBis() {
+        return dateOfEndContractBis;
     }
 
     public String getSokaBauContract() {
         return sokaBauContract;
+    }
+
+    public String getBisContract() {
+        return bisContract;
+    }
+
+    public String getTunnelContract() {
+        return tunnelContract;
     }
 
     @Override
@@ -88,7 +105,10 @@ public class ExcelPerson {
                 ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", endOfContract='" + endOfContract + '\'' +
-                ", dateOfEndOfContracy='" + dateOfEndOfContracy + '\'' +
+                ", dateOfEndOfContracy='" + dateOfEndContractTunnel + '\'' +
+                ", sokaBauContract='" + sokaBauContract + '\'' +
+                ", bisContract='" + bisContract + '\'' +
+                ", tunnelContract='" + tunnelContract + '\'' +
                 '}';
     }
 }
