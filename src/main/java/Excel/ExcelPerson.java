@@ -1,4 +1,4 @@
-package Model;
+package Excel;
 
 import com.poiji.annotation.ExcelCellName;
 import com.poiji.annotation.ExcelRow;
@@ -39,7 +39,7 @@ public class ExcelPerson {
     private String dateOfEndContractBis;
 
     @ExcelCellName("SOKA BAU?")
-    private String sokaBauContract;
+    private String pkbrContract;
 
     @ExcelCellName("BIS?")
     private String bisContract;
@@ -84,8 +84,8 @@ public class ExcelPerson {
         return dateOfEndContractBis;
     }
 
-    public String getSokaBauContract() {
-        return sokaBauContract;
+    public String getPkbrContract() {
+        return pkbrContract;
     }
 
     public String getBisContract() {
@@ -106,7 +106,7 @@ public class ExcelPerson {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", endOfContract='" + endOfContract + '\'' +
                 ", dateOfEndOfContracy='" + dateOfEndContractTunnel + '\'' +
-                ", sokaBauContract='" + sokaBauContract + '\'' +
+                ", sokaBauContract='" + pkbrContract + '\'' +
                 ", bisContract='" + bisContract + '\'' +
                 ", tunnelContract='" + tunnelContract + '\'' +
                 '}';

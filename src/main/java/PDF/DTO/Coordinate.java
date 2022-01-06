@@ -1,6 +1,6 @@
-package PDF;
+package PDF.DTO;
 
-class Coordinate {
+public class Coordinate {
     private int x;
     private int y;
 

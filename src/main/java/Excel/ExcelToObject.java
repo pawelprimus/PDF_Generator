@@ -1,11 +1,11 @@
 package Excel;
 
 import Model.Address;
-import Model.ExcelPerson;
 import Model.Person;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -18,6 +18,7 @@ public class ExcelToObject {
 
     private static final String DATE_FORMAT = "dd.MM.yyyy";
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern((DATE_FORMAT));
+    private static final String WRONG_DATA_COMMENT = "WRONG %s DATA | ";
 
     public List<Person> excelObjectToPerson(List<ExcelPerson> excelPersonList) {
 
@@ -25,7 +26,7 @@ public class ExcelToObject {
         ArrayList<Person> people = new ArrayList<>();
 
         for (ExcelPerson excelPerson : excelPersonList) {
-            Person person = new Person();
+            Person person = new Person(excelPerson.getRowIndex());
 
             String name = excelPerson.getName();
             if (isStringNotEmpty(name)) {
@@ -37,21 +38,31 @@ public class ExcelToObject {
                     person.setName(nameAndSurname[1]);
                 }
             } else {
+                person.addComment(String.format(WRONG_DATA_COMMENT, "NAME"));
                 person.setDataValid(false);
             }
 
             String birthday = excelPerson.getBirthDate();
             if (isStringNotEmpty(birthday)) {
-                LocalDate localDate = LocalDate.parse(birthday, dateTimeFormatter);
-                person.setBirthday(localDate);
+
+
+                try {
+                    LocalDate localDate = LocalDate.parse(birthday, dateTimeFormatter);
+                    person.setBirthday(localDate);
+                } catch (DateTimeParseException e){
+                    person.addComment(String.format(WRONG_DATA_COMMENT, "BIRTHDAY"));
+                }
+
             } else {
+                person.addComment("EMPTY BIRTHDAY DATE");
                 person.setDataValid(false);
             }
 
-            String adress = excelPerson.getAddress();
-            if (isStringNotEmpty(adress)) {
-                person.setAddress(getAddress(adress));
+            String address = excelPerson.getAddress();
+            if (isStringNotEmpty(address)) {
+                person.setAddress(getAddress(address));
             } else {
+                person.addComment(String.format(WRONG_DATA_COMMENT, "ADDRESS"));
                 person.setDataValid(false);
             }
 
@@ -81,17 +92,24 @@ public class ExcelToObject {
                 }
             }
 
-            String dateEndOfContract = excelPerson.getDateOfEndContractTunnel();
-            if (isStringNotEmpty(dateEndOfContract)) {
-                LocalDate localDate = LocalDate.parse(dateEndOfContract, dateTimeFormatter);
-                person.setEndOfContractDate(localDate);
-            } else {
-                person.setDataValid(false);
+            if (person.isEndOfContractPbkr() || person.isEndOfContractBis() || person.isEndOfContractTunnel()) {
+                String dateEndOfContract = excelPerson.getDateOfEndContractTunnel();
+                if (isStringNotEmpty(dateEndOfContract)) {
+                    try {
+                        LocalDate localDate = LocalDate.parse(dateEndOfContract, dateTimeFormatter);
+                        person.setEndOfContractDate(localDate);
+                    } catch (DateTimeParseException e){
+                        person.addComment(String.format(WRONG_DATA_COMMENT, "END CONTRACT DATE"));
+                    }
+                } else {
+                    person.setDataValid(false);
+                    person.addComment("EMPTY END CONTRACT DATE ");
+                }
             }
 
-            String sokaBauContract = excelPerson.getSokaBauContract();
-            if (isStringNotEmpty(sokaBauContract)) {
-                if (sokaBauContract.equals("x")) {
+            String pkbrContract = excelPerson.getPkbrContract();
+            if (isStringNotEmpty(pkbrContract)) {
+                if (pkbrContract.equals("x")) {
                     person.setPbkrContract(true);
                 }
             }
@@ -109,7 +127,7 @@ public class ExcelToObject {
                     person.setTunnelContract(true);
                 }
             }
-
+            person.fillTheDocumentsData();
             people.add(person);
         }
 

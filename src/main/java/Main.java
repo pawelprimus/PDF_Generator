@@ -1,7 +1,7 @@
 import Enums.WorkingType;
 import Excel.ExcelExtractor;
+import Excel.ExcelPerson;
 import Excel.ExcelToObject;
-import Model.ExcelPerson;
 import Model.Person;
 import PDF.PDFCreator;
 import com.itextpdf.text.DocumentException;
@@ -23,6 +23,7 @@ public class Main {
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(datePattern);
     private static final Path WORKING_DIRECTORY = Paths.get(System.getProperty("user.dir"));
     private static final String XLSX_EXTENSION = ".xlsx";
+    private static final String EXCEL_DATA_NAME = "test" + XLSX_EXTENSION;
     private static final WorkingType workingType = WorkingType.PROD;
 
     public static void main(String[] args) throws IOException, DocumentException, SpreadsheetReadException {
@@ -36,29 +37,28 @@ public class Main {
 
         try {
 
+            ExcelExtractor excelExtractor = new ExcelExtractor();
+            ExcelToObject excelToObject = new ExcelToObject();
+            PDFCreator pdfCreator = new PDFCreator();
 
-        ExcelExtractor excelExtractor = new ExcelExtractor();
-        ExcelToObject excelToObject = new ExcelToObject();
-        PDFCreator pdfCreator = new PDFCreator();
-        String excelDataName = "test" + XLSX_EXTENSION;
+            File ordersExportFile = new File(dataFolder + "\\" + EXCEL_DATA_NAME);
+
+            Set<Integer> indexesHashSet = excelExtractor.getDateIndexes(ordersExportFile);
+            PoijiNumberFormat numberFormat = excelExtractor.getPoijiNumberFormatWithDates(indexesHashSet);
+
+            List<ExcelPerson> excelPersonList = excelExtractor.generateExcelPersonList(ordersExportFile, numberFormat);
+            List<Person> people = excelToObject.excelObjectToPerson(excelPersonList);
 
 
-        File ordersExportFile = new File(dataFolder + "\\" + excelDataName);
-
-        Set<Integer> indexesHashSet = excelExtractor.getDateIndexes(ordersExportFile);
-        PoijiNumberFormat numberFormat = excelExtractor.getPoijiNumberFormatWithDates(indexesHashSet);
-        List<ExcelPerson> excelPersonList = excelExtractor.generateExcelPersonList(ordersExportFile, numberFormat);
-        List<Person> people = excelToObject.excelObjectToPerson(excelPersonList);
-
-        pdfCreator.generateTerminationOfEmploymentContracts(people, dataFolder, reportText);
-        pdfCreator.generateContracts(people, dataFolder, reportText);
-        } catch (Exception e){
+            for (Person person : people) {
+                pdfCreator.generateAllDocuments(person, dataFolder, reportText);
+            }
+        } catch (Exception e) {
             reportText.append(e);
         }
 
-
         try {
-            FileWriter myWriter = new FileWriter(dataFolder+"\\raport.txt");
+            FileWriter myWriter = new FileWriter(dataFolder + "\\raport.txt");
             myWriter.write(reportText.toString());
             myWriter.close();
             System.out.println("Successfully wrote to the file.");

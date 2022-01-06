@@ -1,6 +1,5 @@
 package Excel;
 
-import Model.ExcelPerson;
 import com.poiji.bind.Poiji;
 import com.poiji.bind.mapping.PoijiLogCellFormat;
 import com.poiji.bind.mapping.PoijiNumberFormat;
