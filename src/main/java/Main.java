@@ -19,12 +19,13 @@ import java.util.Set;
 
 
 public class Main {
+    private static final WorkingType workingType = WorkingType.TEST;
+    private static final String XLSX_EXTENSION = ".xlsx";
+    private static final String EXCEL_DATA_NAME = "test" + XLSX_EXTENSION;
+
     private static final String datePattern = "dd.MM.yyyy";
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(datePattern);
     private static final Path WORKING_DIRECTORY = Paths.get(System.getProperty("user.dir"));
-    private static final String XLSX_EXTENSION = ".xlsx";
-    private static final String EXCEL_DATA_NAME = "test" + XLSX_EXTENSION;
-    private static final WorkingType workingType = WorkingType.PROD;
 
     public static void main(String[] args) throws IOException, DocumentException, SpreadsheetReadException {
         StringBuilder reportText = new StringBuilder();
