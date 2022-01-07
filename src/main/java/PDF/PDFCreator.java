@@ -21,7 +21,6 @@ import java.util.List;
 public class PDFCreator {
 
 
-
     private static final String PDF_EXTENSION = ".pdf";
 
     private static final String DD_MM_YYYY = "dd.MM.yyyy";
@@ -30,14 +29,15 @@ public class PDFCreator {
     private static final String NOT_VALID_DATA_RAPORT = "\nROW: [%s] NOT VALID DATA\n";
 
 
-    public void generateAllDocuments( Person person, Path docuPath, StringBuilder raportText) throws DocumentException, IOException {
-        if(person.isDataValid()){
-            for(PdfDocument pdfDocument : person.getPdfDocuments()){
+    public void generateAllDocuments(Person person, Path docuPath, StringBuilder raportText) throws DocumentException, IOException {
+        if (person.isDataValid()) {
+            for (PdfDocument pdfDocument : person.getPdfDocuments()) {
 
                 raportText.append("\n").append(LocalDateTime.now().format(DateTimeFormatter.ofPattern(REPORT_DATE_FORMAT)))
                         .append(" PERSON ROW INDEX [").append(person.getRowIndex()).append("]")
                         .append(" Started generate document [").append(pdfDocument.pdfName).append("] ->\n");
-                generateDocument(pdfDocument, docuPath);
+                String personFullname = person.getSurname() + " " + person.getName() + " ";
+                generateDocument(pdfDocument, docuPath, personFullname);
                 raportText.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern(REPORT_DATE_FORMAT))).append(" FINISHED\n");
             }
         } else {
@@ -46,7 +46,7 @@ public class PDFCreator {
         }
     }
 
-    public void generateDocument(PdfDocument pdfDocument, Path documentPath) throws IOException, DocumentException {
+    public void generateDocument(PdfDocument pdfDocument, Path documentPath, String personFullName) throws IOException, DocumentException {
 
         String inputFilePath = documentPath + "\\Templates\\" + pdfDocument.getPdfName() + PDF_EXTENSION;
 
@@ -54,12 +54,12 @@ public class PDFCreator {
         if (!outputDirectory.exists()) {
             outputDirectory.mkdir();
         }
-        String outputFilePath = outputDirectory + "\\" + pdfDocument.getPdfName() + PDF_EXTENSION;
+        String outputFilePath = outputDirectory + "\\" + personFullName + pdfDocument.getPdfName() + PDF_EXTENSION;
         OutputStream fos = new FileOutputStream(new File(outputFilePath));
         PdfReader pdfReader = new PdfReader(inputFilePath);
         PdfStamper pdfStamper = new PdfStamper(pdfReader, fos);
         PdfContentByte pdfContentByte = pdfStamper.getOverContent(1);
-        addPdfContentsToPDF(pdfContentByte , pdfDocument.getPdfContents());
+        addPdfContentsToPDF(pdfContentByte, pdfDocument.getPdfContents());
         pdfStamper.close(); //close pdfStamper
     }
 
@@ -76,7 +76,7 @@ public class PDFCreator {
                     );
             pdfContentByte.setFontAndSize(bf, pdfContent.getFontSize()); // set font and size
 
-            if(pdfContent.getKarning() > 0){
+            if (pdfContent.getKarning() > 0) {
                 addContentWithKerninng(pdfContentByte, pdfContent);
             } else {
                 pdfContentByte.setTextMatrix(pdfContent.getCoordinate().getX(), pdfContent.getCoordinate().getY());
@@ -86,7 +86,7 @@ public class PDFCreator {
         }
     }
 
-    private static void addContentWithKerninng(PdfContentByte pdfContentByte ,PdfContent pdfContent){
+    private static void addContentWithKerninng(PdfContentByte pdfContentByte, PdfContent pdfContent) {
         char[] textCharsArray = pdfContent.getTextContent().toCharArray();
         for (int i = 1; i <= textCharsArray.length; i++) {
             pdfContentByte.setTextMatrix(pdfContent.getCoordinate().getX() + i * pdfContent.getKarning(), pdfContent.getCoordinate().getY());

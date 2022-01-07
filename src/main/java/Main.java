@@ -30,7 +30,7 @@ public class Main {
     public static void main(String[] args) throws IOException, DocumentException, SpreadsheetReadException {
         StringBuilder reportText = new StringBuilder();
         Path dataFolder;
-        if (workingType.equals(WorkingType.TEST)) {
+        if (workingType.equals(WorkingType.PROD)) {
             dataFolder = Paths.get((WORKING_DIRECTORY) + "\\data_test\\");
         } else {
             dataFolder = Paths.get(WORKING_DIRECTORY + "\\data\\");
