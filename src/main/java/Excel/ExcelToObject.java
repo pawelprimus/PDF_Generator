@@ -1,5 +1,6 @@
 package Excel;
 
+import Enums.DocumentType;
 import Model.Address;
 import Model.Person;
 
@@ -49,7 +50,7 @@ public class ExcelToObject {
                 try {
                     LocalDate localDate = LocalDate.parse(birthday, dateTimeFormatter);
                     person.setBirthday(localDate);
-                } catch (DateTimeParseException e){
+                } catch (DateTimeParseException e) {
                     person.addComment(String.format(WRONG_DATA_COMMENT, "BIRTHDAY"));
                 }
 
@@ -74,31 +75,34 @@ public class ExcelToObject {
             String endOfContractTunnel = excelPerson.getEndOfContract();
             if (isStringNotEmpty(endOfContractTunnel)) {
                 if (endOfContractTunnel.equals("x")) {
-                    person.setEndOfContractTunnel(true);
+                    person.addSelectedDocumentType(DocumentType.ENDCONTRACT_TUNNEl);
                 }
             }
 
             String endOfContractPbkr = excelPerson.getEndOfContract();
             if (isStringNotEmpty(endOfContractPbkr)) {
                 if (endOfContractPbkr.equals("x")) {
-                    person.setEndOfContractPbkr(true);
+                    person.addSelectedDocumentType(DocumentType.ENDCONTRACT_PKBR);
                 }
             }
 
             String endOfContractBis = excelPerson.getEndOfContract();
             if (isStringNotEmpty(endOfContractBis)) {
                 if (endOfContractBis.equals("x")) {
-                    person.setEndOfContractBis(true);
+                    person.addSelectedDocumentType(DocumentType.ENDCONTRACT_BIS);
                 }
             }
 
-            if (person.isEndOfContractPbkr() || person.isEndOfContractBis() || person.isEndOfContractTunnel()) {
+            if (person.getSelectedDocumentsToGenerate().contains(DocumentType.ENDCONTRACT_BIS) ||
+                    person.getSelectedDocumentsToGenerate().contains(DocumentType.ENDCONTRACT_PKBR) ||
+                    person.getSelectedDocumentsToGenerate().contains(DocumentType.ENDCONTRACT_TUNNEl)
+            ) {
                 String dateEndOfContract = excelPerson.getDateOfEndContractTunnel();
                 if (isStringNotEmpty(dateEndOfContract)) {
                     try {
                         LocalDate localDate = LocalDate.parse(dateEndOfContract, dateTimeFormatter);
                         person.setEndOfContractDate(localDate);
-                    } catch (DateTimeParseException e){
+                    } catch (DateTimeParseException e) {
                         person.addComment(String.format(WRONG_DATA_COMMENT, "END CONTRACT DATE"));
                     }
                 } else {
@@ -110,24 +114,26 @@ public class ExcelToObject {
             String pkbrContract = excelPerson.getPkbrContract();
             if (isStringNotEmpty(pkbrContract)) {
                 if (pkbrContract.equals("x")) {
-                    person.setPbkrContract(true);
+                    person.addSelectedDocumentType(DocumentType.SOKA_PKBR);
                 }
             }
 
             String bisContract = excelPerson.getBisContract();
             if (isStringNotEmpty(bisContract)) {
                 if (bisContract.equals("x")) {
-                    person.setBisContract(true);
+                    person.addSelectedDocumentType(DocumentType.SOKA_BIS);
                 }
             }
 
             String tunnelContract = excelPerson.getTunnelContract();
             if (isStringNotEmpty(tunnelContract)) {
                 if (tunnelContract.equals("x")) {
-                    person.setTunnelContract(true);
+                    person.addSelectedDocumentType(DocumentType.SOKA_TUNNEl);
                 }
             }
+
             person.fillTheDocumentsData();
+
             people.add(person);
         }
 
