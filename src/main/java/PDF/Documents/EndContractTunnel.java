@@ -5,7 +5,10 @@ import Model.Person;
 import PDF.DTO.Coordinate;
 import PDF.DTO.PdfContent;
 
-public class EndContractTunnel extends PdfDocument {
+import java.util.ArrayList;
+import java.util.List;
+
+public class EndContractTunnel implements PdfDocument {
 
     //end contract
     private static final Coordinate EC_EMPL_NAME_SURNAME = new Coordinate(70, 753);
@@ -16,14 +19,19 @@ public class EndContractTunnel extends PdfDocument {
     private static final String CONTRACT_END_TUNNEL = "Rozwiązanie umowy o pracę - WPBK-TUNNELLING";
     private static final String CONTRACT_END_FILE_NAME_TUNNEL = CONTRACT_END_TUNNEL + PDF_EXTENSION;
     private static final String NEW_CONTRACT_END_FILE_NAME = "%s %s " + CONTRACT_END_FILE_NAME_TUNNEL;
+    List<PdfContent> pdfContents = new ArrayList<>();
 
     public EndContractTunnel(Person person) {
-        fillContent(person);
+        setPdfContent(person);
     }
 
     @Override
-    public void fillContent(final Person person) {
-        pdfName = CONTRACT_END_TUNNEL;
+    public String getPdfName() {
+        return CONTRACT_END_TUNNEL;
+    }
+
+    @Override
+    public void setPdfContent(Person person) {
 
         PdfContent fullNamePdfContent = new PdfContent(EC_EMPL_NAME_SURNAME, person.getSurname() + " " + person.getName(), FONT.TIMES_BOLD, 16);
         PdfContent streetPdfContent = new PdfContent(EC_EMPL_STREET, person.getAddress().getStreet(), FONT.TIMES_BOLD, 16);
@@ -36,7 +44,10 @@ public class EndContractTunnel extends PdfDocument {
         pdfContents.add(cityAndCodePdfContent);
         pdfContents.add(firstDateOfEndContent);
         pdfContents.add(secondDateOfEndContent);
+    }
 
-
+    @Override
+    public List<PdfContent> getPdfContents() {
+        return pdfContents;
     }
 }

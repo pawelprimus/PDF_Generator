@@ -72,21 +72,21 @@ public class ExcelToObject {
                 person.setPhoneNumber(phoneNumber);
             }
 
-            String endOfContractTunnel = excelPerson.getEndOfContract();
+            String endOfContractTunnel = excelPerson.getEndOfContractTunnel();
             if (isStringNotEmpty(endOfContractTunnel)) {
                 if (endOfContractTunnel.equals("x")) {
                     person.addSelectedDocumentType(DocumentType.ENDCONTRACT_TUNNEl);
                 }
             }
 
-            String endOfContractPbkr = excelPerson.getEndOfContract();
+            String endOfContractPbkr = excelPerson.getEndOfContractPkbr();
             if (isStringNotEmpty(endOfContractPbkr)) {
                 if (endOfContractPbkr.equals("x")) {
                     person.addSelectedDocumentType(DocumentType.ENDCONTRACT_PKBR);
                 }
             }
 
-            String endOfContractBis = excelPerson.getEndOfContract();
+            String endOfContractBis = excelPerson.getEndOfContractBis();
             if (isStringNotEmpty(endOfContractBis)) {
                 if (endOfContractBis.equals("x")) {
                     person.addSelectedDocumentType(DocumentType.ENDCONTRACT_BIS);
@@ -132,8 +132,6 @@ public class ExcelToObject {
                 }
             }
 
-            person.fillTheDocumentsData();
-
             people.add(person);
         }
 
@@ -148,7 +146,7 @@ public class ExcelToObject {
         return (index >= 0) && (index < array.length);
     }
 
-    public Address getAddress(String fullAddress) {
+    private Address getAddress(String fullAddress) {
 
         String preparedRemarks = fullAddress.replaceAll(",", " ");
         String[] wordsArray = preparedRemarks.split("\\s+");

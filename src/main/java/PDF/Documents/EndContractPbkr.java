@@ -5,7 +5,10 @@ import Model.Person;
 import PDF.DTO.Coordinate;
 import PDF.DTO.PdfContent;
 
-public class EndContractPbkr extends PdfDocument {
+import java.util.ArrayList;
+import java.util.List;
+
+public class EndContractPbkr implements PdfDocument {
 
     //end contract
     private static final Coordinate EC_EMPL_NAME_SURNAME = new Coordinate(70, 753);
@@ -13,17 +16,22 @@ public class EndContractPbkr extends PdfDocument {
     private static final Coordinate EC_EMPL_CITY = new Coordinate(70, 678);
     private static final Coordinate EC_EMPL_DATE_OF_END = new Coordinate(115, 440);
     private static final Coordinate EC_EMPL_DATE_OF_END_2 = new Coordinate(220, 180);
-    private static final String CONTRACT_END_TUNNEL = "Rozwiązanie umowy o pracę - PBKR-EXPORT";
-    private static final String CONTRACT_END_FILE_NAME_TUNNEL = CONTRACT_END_TUNNEL + PDF_EXTENSION;
+    private static final String CONTRACT_END_PKBR = "Rozwiązanie umowy o pracę - PBKR-EXPORT";
+    private static final String CONTRACT_END_FILE_NAME_TUNNEL = CONTRACT_END_PKBR + PDF_EXTENSION;
     private static final String NEW_CONTRACT_END_FILE_NAME = "%s %s " + CONTRACT_END_FILE_NAME_TUNNEL;
+    List<PdfContent> pdfContents = new ArrayList<>();
 
     public EndContractPbkr(Person person) {
-        fillContent(person);
+        setPdfContent(person);
     }
 
     @Override
-    public void fillContent(final Person person) {
-        pdfName = CONTRACT_END_TUNNEL;
+    public String getPdfName() {
+        return CONTRACT_END_PKBR;
+    }
+
+    @Override
+    public void setPdfContent(Person person) {
 
         PdfContent fullNamePdfContent = new PdfContent(EC_EMPL_NAME_SURNAME, person.getSurname() + " " + person.getName(), FONT.TIMES_BOLD, 16);
         PdfContent streetPdfContent = new PdfContent(EC_EMPL_STREET, person.getAddress().getStreet(), FONT.TIMES_BOLD, 16);
@@ -37,4 +45,11 @@ public class EndContractPbkr extends PdfDocument {
         pdfContents.add(firstDateOfEndContent);
         pdfContents.add(secondDateOfEndContent);
     }
+
+    @Override
+    public List<PdfContent> getPdfContents() {
+        return pdfContents;
+    }
+
+
 }

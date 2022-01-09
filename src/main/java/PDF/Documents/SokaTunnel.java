@@ -5,7 +5,10 @@ import Model.Person;
 import PDF.DTO.Coordinate;
 import PDF.DTO.PdfContent;
 
-public class SokaTunnel extends PdfDocument {
+import java.util.ArrayList;
+import java.util.List;
+
+public class SokaTunnel implements PdfDocument {
 
     private static final Coordinate TUNNEL_EMPL_NAME = new Coordinate(80, 711);
     private static final Coordinate TUNNEL_EMPL_SURNAME = new Coordinate(80, 685);
@@ -20,24 +23,27 @@ public class SokaTunnel extends PdfDocument {
     private static final String TUNNEL = "SOKA-BAU-WPBK-TUNNELLING";
 
     public SokaTunnel(Person person) {
-        fillContent(person);
+        setPdfContent(person);
+    }
+    List<PdfContent> pdfContents = new ArrayList<>();
+
+
+    @Override
+    public String getPdfName() {
+        return TUNNEL;
     }
 
     @Override
-    public void fillContent(final Person person) {
-
-        pdfName = TUNNEL;
-
+    public void setPdfContent(Person person) {
         PdfContent namePdfContent = new PdfContent(TUNNEL_EMPL_NAME, person.getName(), FONT.TIMES_BOLD, 16);
         PdfContent surnamePdfContent = new PdfContent(TUNNEL_EMPL_SURNAME, person.getSurname(), FONT.TIMES_BOLD, 16);
         PdfContent birthdayPdfContent = new PdfContent(TUNNEL_EMPL_BIRTHDAY, person.getBirthday().format(PDF_DATE_TIME_FORMATTER).toString().replace(" ", ""), FONT.TIMES_BOLD, 14, 17);
         PdfContent streetPdfContent = new PdfContent(TUNNEL_EMPL_STREET, person.getAddress().getStreet(), FONT.TIMES_BOLD, 16);
         PdfContent cityPdfContent = new PdfContent(TUNNEL_EMPL_CITY, person.getAddress().getCity(), FONT.TIMES_BOLD, 16);
         PdfContent cityCodePdfContent = new PdfContent(TUNNEL_EMPL_CITY_CODE, person.getAddress().getCityCode(), FONT.TIMES_BOLD, 16);
-        PdfContent stampPLPdfContent = new PdfContent(TUNNEL_PL_STAMP, STAMP_TEXT, FONT.TIMES_BOLD, 13,18);
+        PdfContent stampPLPdfContent = new PdfContent(TUNNEL_PL_STAMP, PL_TEXT, FONT.TIMES_BOLD, 13, 18);
         PdfContent stampFirstPdfContent = new PdfContent(TUNNEL_FIRST_STAMP, FIRST_TEXT, FONT.TIMES_BOLD, 12);
         PdfContent stampSecondPdfContent = new PdfContent(TUNNEL_SECOND_STAMP, SECOND_TEXT, FONT.TIMES_BOLD, 12);
-
 
         pdfContents.add(namePdfContent);
         pdfContents.add(surnamePdfContent);
@@ -49,4 +55,10 @@ public class SokaTunnel extends PdfDocument {
         pdfContents.add(stampFirstPdfContent);
         pdfContents.add(stampSecondPdfContent);
     }
+
+    @Override
+    public List<PdfContent> getPdfContents() {
+        return pdfContents;
+    }
+
 }

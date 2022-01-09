@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Person {
-    private int rowIndex;
+    private final int rowIndex;
     private String name;
     private String surname;
     private LocalDate birthday;
@@ -16,14 +16,11 @@ public class Person {
     private String phoneNumber;
     private StringBuilder comment = new StringBuilder();
     private LocalDate endOfContractDate;
-    List<DocumentType> selectedDocumentsToGenerate = new ArrayList<>();
+    private List<DocumentType> selectedDocumentsToGenerate = new ArrayList<>();
     private boolean isDataValid = true;
-
-    List<PdfDocument> pdfDocuments;
 
     public Person(int rowIndex) {
         this.rowIndex = rowIndex;
-        pdfDocuments = new ArrayList<>();
     }
 
     public int getRowIndex() {
@@ -90,10 +87,6 @@ public class Person {
         isDataValid = dataValid;
     }
 
-    public List<PdfDocument> getPdfDocuments() {
-        return pdfDocuments;
-    }
-
     public void addSelectedDocumentType(DocumentType documentType) {
         selectedDocumentsToGenerate.add(documentType);
     }
@@ -102,27 +95,7 @@ public class Person {
         return selectedDocumentsToGenerate;
     }
 
-    public void fillTheDocumentsData() {
 
-        if (isDataValid) {
-            for (DocumentType documentType : selectedDocumentsToGenerate) {
-                switch (documentType) {
-                    case ENDCONTRACT_BIS:
-                        this.pdfDocuments.add(new EndContractBis(this));
-                    case ENDCONTRACT_PKBR:
-                        this.pdfDocuments.add(new EndContractPbkr(this));
-                    case ENDCONTRACT_TUNNEl:
-                        this.pdfDocuments.add(new EndContractTunnel(this));
-                    case SOKA_BIS:
-                        this.pdfDocuments.add(new SokaBis(this));
-                    case SOKA_PKBR:
-                        this.pdfDocuments.add(new SokaPbkr(this));
-                    case SOKA_TUNNEl:
-                        this.pdfDocuments.add(new SokaTunnel(this));
-                }
-            }
-        }
-    }
 
     @Override
     public String toString() {

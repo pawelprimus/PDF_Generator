@@ -5,7 +5,10 @@ import Model.Person;
 import PDF.DTO.Coordinate;
 import PDF.DTO.PdfContent;
 
-public class SokaBis extends PdfDocument {
+import java.util.ArrayList;
+import java.util.List;
+
+public class SokaBis implements PdfDocument {
 
     private static final Coordinate BIS_EMPL_NAME = new Coordinate(80, 710);
     private static final Coordinate BIS_EMPL_SURNAME = new Coordinate(80, 685);
@@ -18,15 +21,20 @@ public class SokaBis extends PdfDocument {
     private static final Coordinate BIS_SECOND_STAMP = new Coordinate(285, 249);
 
     private static final String BIS_BAU = "SOKA-BAU - WPBK-BIS-EXPORT";
+    List<PdfContent> pdfContents = new ArrayList<>();
+
 
     public SokaBis(Person person) {
-        fillContent(person);
+        setPdfContent(person);
     }
 
     @Override
-    public void fillContent(final Person person) {
+    public String getPdfName() {
+        return BIS_BAU;
+    }
 
-        pdfName = BIS_BAU;
+    @Override
+    public void setPdfContent(Person person) {
 
         PdfContent namePdfContent = new PdfContent(BIS_EMPL_NAME, person.getName(), FONT.TIMES_BOLD, 16);
         PdfContent surnamePdfContent = new PdfContent(BIS_EMPL_SURNAME, person.getSurname(), FONT.TIMES_BOLD, 16);
@@ -34,9 +42,9 @@ public class SokaBis extends PdfDocument {
         PdfContent streetPdfContent = new PdfContent(BIS_EMPL_STREET, person.getAddress().getStreet(), FONT.TIMES_BOLD, 16);
         PdfContent cityPdfContent = new PdfContent(BIS_EMPL_CITY, person.getAddress().getCity(), FONT.TIMES_BOLD, 16);
         PdfContent cityCodePdfContent = new PdfContent(BIS_EMPL_CITY_CODE, person.getAddress().getCityCode(), FONT.TIMES_BOLD, 16);
-        PdfContent stampPLPdfContent = new PdfContent(BIS_PL_STAMP , STAMP_TEXT, FONT.TIMES_BOLD , 13, 18);
-        PdfContent stampFirstPdfContent = new PdfContent(BIS_FIRST_STAMP, FIRST_TEXT , FONT.TIMES_BOLD , 12);
-        PdfContent stampSecondPdfContent = new PdfContent(BIS_SECOND_STAMP, SECOND_TEXT , FONT.TIMES_BOLD, 12);
+        PdfContent stampPLPdfContent = new PdfContent(BIS_PL_STAMP, PL_TEXT, FONT.TIMES_BOLD, 13, 18);
+        PdfContent stampFirstPdfContent = new PdfContent(BIS_FIRST_STAMP, FIRST_TEXT, FONT.TIMES_BOLD, 12);
+        PdfContent stampSecondPdfContent = new PdfContent(BIS_SECOND_STAMP, SECOND_TEXT, FONT.TIMES_BOLD, 12);
 
 
         pdfContents.add(namePdfContent);
@@ -48,5 +56,10 @@ public class SokaBis extends PdfDocument {
         pdfContents.add(stampPLPdfContent);
         pdfContents.add(stampFirstPdfContent);
         pdfContents.add(stampSecondPdfContent);
+    }
+
+    @Override
+    public List<PdfContent> getPdfContents() {
+        return pdfContents;
     }
 }

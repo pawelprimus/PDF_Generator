@@ -26,17 +26,17 @@ public class ExcelPerson {
     @ExcelCellName("Nr. Telefonu")
     private String phoneNumber;
 
-    @ExcelCellName("Rozwiązanie WPBK-TUNNELLING?")
-    private String endOfContract;
-
     @ExcelCellName("Data rozwiązania")
     private String dateOfEndContractTunnel;
 
+    @ExcelCellName("Rozwiązanie WPBK-TUNNELLING?")
+    private String endOfContractTunnel;
+
     @ExcelCellName("Rozwiązanie PBKR-EXPORT?")
-    private String dateOfEndContractPbkr;
+    private String endOfContractPkbr;
 
     @ExcelCellName("Rozwiązanie BIS-EXPORT")
-    private String dateOfEndContractBis;
+    private String endOfContractBis;
 
     @ExcelCellName("SOKA BAU?")
     private String pkbrContract;
@@ -48,51 +48,51 @@ public class ExcelPerson {
     private String tunnelContract;
 
 
-    public int getRowIndex() {
+    int getRowIndex() {
         return rowIndex;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public String getBirthDate() {
+    String getBirthDate() {
         return birthDate;
     }
 
-    public String getAddress() {
+    String getAddress() {
         return address;
     }
 
-    public String getPhoneNumber() {
+    String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public String getEndOfContract() {
-        return endOfContract;
-    }
-
-    public String getDateOfEndContractTunnel() {
+    String getDateOfEndContractTunnel() {
         return dateOfEndContractTunnel;
     }
 
-    public String getDateOfEndContractPbkr() {
-        return dateOfEndContractPbkr;
+    String getEndOfContractTunnel() {
+        return endOfContractTunnel;
     }
 
-    public String getDateOfEndContractBis() {
-        return dateOfEndContractBis;
+    String getEndOfContractPkbr() {
+        return endOfContractPkbr;
     }
 
-    public String getPkbrContract() {
+    String getEndOfContractBis() {
+        return endOfContractBis;
+    }
+
+    String getPkbrContract() {
         return pkbrContract;
     }
 
-    public String getBisContract() {
+    String getBisContract() {
         return bisContract;
     }
 
-    public String getTunnelContract() {
+    String getTunnelContract() {
         return tunnelContract;
     }
 
@@ -104,7 +104,7 @@ public class ExcelPerson {
                 ", birthDate='" + birthDate + '\'' +
                 ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", endOfContract='" + endOfContract + '\'' +
+                ", endOfContract='" + endOfContractTunnel + '\'' +
                 ", dateOfEndOfContracy='" + dateOfEndContractTunnel + '\'' +
                 ", sokaBauContract='" + pkbrContract + '\'' +
                 ", bisContract='" + bisContract + '\'' +

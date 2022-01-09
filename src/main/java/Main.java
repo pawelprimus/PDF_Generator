@@ -19,24 +19,22 @@ import java.util.Set;
 
 
 public class Main {
-    private static final WorkingType workingType = WorkingType.TEST;
     private static final String XLSX_EXTENSION = ".xlsx";
-    private static final String EXCEL_DATA_NAME = "test" + XLSX_EXTENSION;
 
-    private static final String datePattern = "dd.MM.yyyy";
-    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(datePattern);
+    private static final WorkingType workingType = WorkingType.PROD;
+    private static final String EXCEL_DATA_NAME = "test" + XLSX_EXTENSION;
     private static final Path WORKING_DIRECTORY = Paths.get(System.getProperty("user.dir"));
 
     public static void main(String[] args) throws IOException, DocumentException, SpreadsheetReadException {
         StringBuilder reportText = new StringBuilder();
         Path dataFolder;
-        if (workingType.equals(WorkingType.PROD)) {
+        if (workingType.equals(WorkingType.TEST)) {
             dataFolder = Paths.get((WORKING_DIRECTORY) + "\\data_test\\");
         } else {
             dataFolder = Paths.get(WORKING_DIRECTORY + "\\data\\");
         }
 
-        try {
+        //try {
 
             ExcelExtractor excelExtractor = new ExcelExtractor();
             ExcelToObject excelToObject = new ExcelToObject();
@@ -50,13 +48,12 @@ public class Main {
             List<ExcelPerson> excelPersonList = excelExtractor.generateExcelPersonList(ordersExportFile, numberFormat);
             List<Person> people = excelToObject.excelObjectToPerson(excelPersonList);
 
-
             for (Person person : people) {
                 pdfCreator.generateAllDocuments(person, dataFolder, reportText);
             }
-        } catch (Exception e) {
-            reportText.append(e);
-        }
+//        } catch (Exception e) {
+//            reportText.append(e);
+//        }
 
         try {
             FileWriter myWriter = new FileWriter(dataFolder + "\\raport.txt");

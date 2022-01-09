@@ -1,7 +1,9 @@
 package PDF;
 
+import Enums.DocumentType;
 import Model.Person;
 import PDF.DTO.PdfContent;
+import PDF.Documents.PdfDocumenFactory;
 import PDF.Documents.PdfDocument;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.BaseFont;
@@ -31,12 +33,14 @@ public class PDFCreator {
 
     public void generateAllDocuments(Person person, Path docuPath, StringBuilder raportText) throws DocumentException, IOException {
         if (person.isDataValid()) {
-            for (PdfDocument pdfDocument : person.getPdfDocuments()) {
+            String personFullname = person.getSurname() + " " + person.getName() + " ";
+
+            for (DocumentType documentType : person.getSelectedDocumentsToGenerate()) {
+                PdfDocument pdfDocument = PdfDocumenFactory.getPdfDocument(documentType, person);
 
                 raportText.append("\n").append(LocalDateTime.now().format(DateTimeFormatter.ofPattern(REPORT_DATE_FORMAT)))
                         .append(" PERSON ROW INDEX [").append(person.getRowIndex()).append("]")
-                        .append(" Started generate document [").append(pdfDocument.pdfName).append("] ->\n");
-                String personFullname = person.getSurname() + " " + person.getName() + " ";
+                        .append(" Started generate document [").append(pdfDocument.getPdfName()).append("] ->\n");
                 generateDocument(pdfDocument, docuPath, personFullname);
                 raportText.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern(REPORT_DATE_FORMAT))).append(" FINISHED\n");
             }
@@ -69,8 +73,7 @@ public class PDFCreator {
             pdfContentByte.beginText();
             BaseFont bf = BaseFont.createFont
                     (
-                            //pdfContent.getFontType().toString(), //Font name
-                            BaseFont.TIMES_BOLD, //Font name
+                            pdfContent.getFontType().getFont(), //Font name
                             BaseFont.CP1250,  //Font encoding
                             BaseFont.EMBEDDED
                     );

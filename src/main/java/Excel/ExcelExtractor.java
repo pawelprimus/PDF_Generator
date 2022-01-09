@@ -17,10 +17,7 @@ import java.util.regex.Pattern;
 
 public class ExcelExtractor {
 
-    private static final String CITY_CODE_REGEX = ("[0-9]{2}-[0-9]{3}");
-    private static final Pattern CITY_CODE_PATTERN = Pattern.compile(CITY_CODE_REGEX);
     private static final String DATE_REGEX = "[a-zA-Z]{1,4}(\\\\|-|\\/|.)[a-zA-Z]{1,4}(\\\\|-|\\/|.)[a-zA-Z]{1,4}$";
-
     private static final String DATE_FORMAT = "dd.MM.yyyy";
 
 
