@@ -8,7 +8,7 @@ import PDF.DTO.PdfContent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SokaTunnel implements PdfDocument {
+class SokaTunnel implements PdfDocument {
 
     private static final Coordinate TUNNEL_EMPL_NAME = new Coordinate(80, 711);
     private static final Coordinate TUNNEL_EMPL_SURNAME = new Coordinate(80, 685);
@@ -26,7 +26,6 @@ public class SokaTunnel implements PdfDocument {
         setPdfContent(person);
     }
     List<PdfContent> pdfContents = new ArrayList<>();
-
 
     @Override
     public String getPdfName() {

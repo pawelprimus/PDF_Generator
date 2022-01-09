@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface PdfDocument {
+ public interface PdfDocument {
 
     String PDF_EXTENSION = ".pdf";
     String DD_MM_YYYY = "dd.MM.yyyy";
@@ -24,5 +24,4 @@ public interface PdfDocument {
     void setPdfContent(Person person);
 
     List<PdfContent> getPdfContents();
-
 }

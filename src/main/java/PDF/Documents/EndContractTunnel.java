@@ -8,9 +8,8 @@ import PDF.DTO.PdfContent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EndContractTunnel implements PdfDocument {
+class EndContractTunnel implements PdfDocument {
 
-    //end contract
     private static final Coordinate EC_EMPL_NAME_SURNAME = new Coordinate(70, 753);
     private static final Coordinate EC_EMPL_STREET = new Coordinate(70, 715);
     private static final Coordinate EC_EMPL_CITY = new Coordinate(70, 678);
@@ -18,10 +17,9 @@ public class EndContractTunnel implements PdfDocument {
     private static final Coordinate EC_EMPL_DATE_OF_END_2 = new Coordinate(220, 180);
     private static final String CONTRACT_END_TUNNEL = "Rozwiązanie umowy o pracę - WPBK-TUNNELLING";
     private static final String CONTRACT_END_FILE_NAME_TUNNEL = CONTRACT_END_TUNNEL + PDF_EXTENSION;
-    private static final String NEW_CONTRACT_END_FILE_NAME = "%s %s " + CONTRACT_END_FILE_NAME_TUNNEL;
     List<PdfContent> pdfContents = new ArrayList<>();
 
-    public EndContractTunnel(Person person) {
+     EndContractTunnel(Person person) {
         setPdfContent(person);
     }
 

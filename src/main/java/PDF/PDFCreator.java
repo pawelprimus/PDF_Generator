@@ -22,26 +22,26 @@ import java.util.List;
 
 public class PDFCreator {
 
-
     private static final String PDF_EXTENSION = ".pdf";
 
-    private static final String DD_MM_YYYY = "dd.MM.yyyy";
-    private static final String PDF_DATE_FORMAT = "dd MM yyyy";
     private static final String REPORT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
     private static final String NOT_VALID_DATA_RAPORT = "\nROW: [%s] NOT VALID DATA\n";
-
+    private static final String NULLPOINTER_RAPORT = "\nROW: [%s] ERROR\n";
 
     public void generateAllDocuments(Person person, Path docuPath, StringBuilder raportText) throws DocumentException, IOException {
         if (person.isDataValid()) {
-            String personFullname = person.getSurname() + " " + person.getName() + " ";
+            String personFullName = person.getSurname() + " " + person.getName() + " ";
 
             for (DocumentType documentType : person.getSelectedDocumentsToGenerate()) {
-                PdfDocument pdfDocument = PdfDocumenFactory.getPdfDocument(documentType, person);
-
-                raportText.append("\n").append(LocalDateTime.now().format(DateTimeFormatter.ofPattern(REPORT_DATE_FORMAT)))
-                        .append(" PERSON ROW INDEX [").append(person.getRowIndex()).append("]")
-                        .append(" Started generate document [").append(pdfDocument.getPdfName()).append("] ->\n");
-                generateDocument(pdfDocument, docuPath, personFullname);
+                try {
+                    PdfDocument pdfDocument = PdfDocumenFactory.getPdfDocument(documentType, person);
+                    raportText.append("\n").append(LocalDateTime.now().format(DateTimeFormatter.ofPattern(REPORT_DATE_FORMAT)))
+                            .append(" PERSON ROW INDEX [").append(person.getRowIndex()).append("]")
+                            .append(" Started generate document [").append(pdfDocument.getPdfName()).append("] ->\n");
+                    generateDocument(pdfDocument, docuPath, personFullName);
+                } catch (NullPointerException e) {
+                    raportText.append(String.format(NULLPOINTER_RAPORT, person.getRowIndex()));
+                }
                 raportText.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern(REPORT_DATE_FORMAT))).append(" FINISHED\n");
             }
         } else {

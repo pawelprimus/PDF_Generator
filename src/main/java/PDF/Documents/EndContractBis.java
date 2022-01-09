@@ -8,9 +8,8 @@ import PDF.DTO.PdfContent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EndContractBis implements PdfDocument {
+ class EndContractBis implements PdfDocument {
 
-    //end contract
     private static final Coordinate EC_EMPL_NAME_SURNAME = new Coordinate(70, 757);
     private static final Coordinate EC_EMPL_STREET = new Coordinate(70, 719);
     private static final Coordinate EC_EMPL_CITY = new Coordinate(70, 682);

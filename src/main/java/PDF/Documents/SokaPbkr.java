@@ -8,7 +8,7 @@ import PDF.DTO.PdfContent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SokaPbkr implements PdfDocument {
+class SokaPbkr implements PdfDocument {
 
     private static final Coordinate PBKR_EMPL_NAME = new Coordinate(75, 730);
     private static final Coordinate PBKR_EMPL_SURNAME = new Coordinate(75, 703);
@@ -25,8 +25,8 @@ public class SokaPbkr implements PdfDocument {
     public SokaPbkr(Person person) {
         setPdfContent(person);
     }
-    List<PdfContent> pdfContents = new ArrayList<>();
 
+    List<PdfContent> pdfContents = new ArrayList<>();
 
     @Override
     public String getPdfName() {

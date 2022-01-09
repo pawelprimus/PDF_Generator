@@ -8,7 +8,7 @@ import PDF.DTO.PdfContent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SokaBis implements PdfDocument {
+ class SokaBis implements PdfDocument {
 
     private static final Coordinate BIS_EMPL_NAME = new Coordinate(80, 710);
     private static final Coordinate BIS_EMPL_SURNAME = new Coordinate(80, 685);
@@ -22,7 +22,6 @@ public class SokaBis implements PdfDocument {
 
     private static final String BIS_BAU = "SOKA-BAU - WPBK-BIS-EXPORT";
     List<PdfContent> pdfContents = new ArrayList<>();
-
 
     public SokaBis(Person person) {
         setPdfContent(person);

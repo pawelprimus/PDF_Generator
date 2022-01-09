@@ -20,8 +20,7 @@ public class PdfDocumenFactory {
             case SOKA_TUNNEl:
                 return new SokaTunnel(person);
             default:
-                return null;
+                return new EmptyDocument();
         }
     }
-
 }
